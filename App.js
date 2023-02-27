@@ -8,7 +8,6 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <WeatherDisplay />
-      <Button>Weather for my location</Button>
     </View>
   );
 }

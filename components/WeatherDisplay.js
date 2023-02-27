@@ -3,7 +3,9 @@ import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import Button from "./Button";
+import { getAddress } from "../util/location";
 export default function WeatherDisplay() {
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
@@ -11,33 +13,45 @@ export default function WeatherDisplay() {
   });
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
-  // FIXME: პირველ დარენდერებაზე არ ეშვება მგონი, ერთი-ორი დასეივების მერე იწყებს მუშაობას
+    const [address, setAddress] = useState(null);
+  async function locate() {
+    await requestPermission();
+    // console.log(permissionStatus);
+    if (locationPermissionInformation.granted === true) {
+      const currentLocation = await getCurrentPositionAsync();
+      // console.log(currentLocation);
+      setCurrentCoordinates({
+        lat: currentLocation.coords.latitude,
+        lng: currentLocation.coords.longitude,
+      });
+      console.log(currentCoordinates);
+    } else {
+      Alert.alert("Please grant permission for app to work");
+    }
+  }
+
   useEffect(() => {
-    async function askPermission() {
-      await requestPermission();
-      // console.log(permissionStatus);
-      if (locationPermissionInformation.granted === true) {
-        const currentLocation = await getCurrentPositionAsync();
-        console.log(currentLocation);
-        setCurrentCoordinates({
-          lat: currentLocation.coords.latitude,
-          lng: currentLocation.coords.longitude,
-        });
-        console.log(currentCoordinates);
-        return;
-      } else {
-        Alert.alert("Please grant permission for app to work");
+    async function handleLocation() {
+      if (currentCoordinates.lat && currentCoordinates.lng) {
+        const address = await getAddress(
+          currentCoordinates.lat,
+          currentCoordinates.lng
+        );
+        setAddress(address); // Update address state variable
       }
     }
-    askPermission();
+    handleLocation();
   }, [currentCoordinates]);
-
   return (
-    <View style={styles.container}>
-      <View style={styles.containerInner}>
-        <Text>WeatherDisplay</Text>
+    <Fragment>
+      <View style={styles.container}>
+        <View style={styles.containerInner}>
+          <Text>WeatherDisplay</Text>
+          <Text>{address}</Text>
+        </View>
       </View>
-    </View>
+      <Button onPress={locate}>Weather for my location</Button>
+    </Fragment>
   );
 }
 
