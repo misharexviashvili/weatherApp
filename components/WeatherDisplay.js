@@ -6,6 +6,7 @@ import {
 import { Fragment, useEffect, useState } from "react";
 import Button from "./Button";
 import { getAddress } from "../util/location";
+import WeatherOutput from "./WeatherOutput";
 export default function WeatherDisplay() {
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
@@ -13,7 +14,7 @@ export default function WeatherDisplay() {
   });
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
-    const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState(null);
   async function locate() {
     await requestPermission();
     // console.log(permissionStatus);
@@ -37,7 +38,7 @@ export default function WeatherDisplay() {
           currentCoordinates.lat,
           currentCoordinates.lng
         );
-        setAddress(address); // Update address state variable
+        setAddress(address.toString().slice(3, 20).replace("'", "")); // Update address state variable
       }
     }
     handleLocation();
@@ -46,8 +47,9 @@ export default function WeatherDisplay() {
     <Fragment>
       <View style={styles.container}>
         <View style={styles.containerInner}>
-          <Text>WeatherDisplay</Text>
+          <Text>Dsiplaying weather for:</Text>
           <Text>{address}</Text>
+          <WeatherOutput currentCoordinates={currentCoordinates} />
         </View>
       </View>
       <Button onPress={locate}>Weather for my location</Button>
