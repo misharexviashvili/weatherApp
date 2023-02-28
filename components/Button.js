@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-
+// import FontFamily from "../constants/FontFamily";
 export default function Button({ children, onPress }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
       onPress={onPress}
     >
-      <Text>{children}</Text>
+      <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
 }
@@ -20,8 +20,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     borderRadius: 10,
+    elevation: 4,
   },
   pressed: {
     opacity: 0.8,
+  },
+  text: {
+    color: "#fff",
+    fontFamily: "monospace",
   },
 });

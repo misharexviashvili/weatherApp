@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { getWeather } from "../util/weather";
-// currentCoordinates bear just plain object with latitude and longitude of the user {lat:777, lng:999}
-export default function WeatherOutput({ currentCoordinates }) {
-  const [currentWeather, setCurrentWeather] = useState({});
-
-  useEffect(() => {
-    async function weatherHandler() {
-      const weather = await getWeather(
-        currentCoordinates.lat,
-        currentCoordinates.lng
-      );
-      setCurrentWeather(weather);
-      console.log(currentWeather);
-    }
-    if (currentCoordinates.lat && currentCoordinates.lng) {
-      try {
-        weatherHandler();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, []);
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+export default function WeatherOutput({ currentWeather, currentCoordinates }) {
+  if (!currentWeather.current) {
+    return (
+      <View style={styles.activityLoader}>
+        <ActivityIndicator size="large" color="white" />
+      </View>
+    );
+  }
+  let weatherTemperature =
+    currentCoordinates.lat || currentCoordinates.lng !== null
+      ? currentWeather.current.temp_c + "C"
+      : `Please press button "Show me weather"`;
   return (
     <View>
-      <Text>WeatherOutput</Text>
+      <Text style={styles.text}>Temperature:{weatherTemperature}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  activityLoader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+    backgroundColor: "gray",
+  },
+  text: {
+    fontFamily: "monospace",
+  },
+});
