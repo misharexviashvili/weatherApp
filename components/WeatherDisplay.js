@@ -1,23 +1,39 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import Button from "./Button";
 import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
-import { getWeather } from "../util/weather";
+import { getWeather, get7DaysWeather } from "../util/weather";
 export default function WeatherDisplay() {
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
     lng: null,
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
   const [address, setAddress] = useState();
+  async function handleLocation(lat, lng) {
+    const address = await getAddress(lat, lng);
+    setAddress(address.toString().slice(3, 20).replace("'", "")); // Update address state variable
+  }
 
+  async function weatherHandler(lat, lng) {
+    const weather = await getWeather(lat, lng);
+    setCurrentWeather(weather);
+  }
   async function locate() {
     await requestPermission();
     if (locationPermissionInformation.granted === true) {
@@ -26,52 +42,38 @@ export default function WeatherDisplay() {
         lat: currentLocation.coords.latitude,
         lng: currentLocation.coords.longitude,
       });
-      console.log(currentCoordinates);
+      console.log("here", currentLocation);
+      await handleLocation(
+        currentLocation.coords.latitude,
+        currentLocation.coords.longitude
+      );
+      weatherHandler(
+        currentLocation.coords.latitude,
+        currentLocation.coords.longitude
+      );
+      console.log("currentWeather state",currentWeather);
+      setIsLoading(false);
     } else {
       Alert.alert("Please grant permission for app to work");
     }
   }
 
-  useEffect(() => {
-    async function handleLocation() {
-      if (currentCoordinates.lat && currentCoordinates.lng) {
-        const address = await getAddress(
-          currentCoordinates.lat,
-          currentCoordinates.lng
-        );
-        setAddress(address.toString().slice(3, 20).replace("'", "")); // Update address state variable
-      }
-    }
-    handleLocation();
-  }, [currentCoordinates]);
-
-  useEffect(() => {
-    async function weatherHandler() {
-      const weather = await getWeather(
-        currentCoordinates.lat,
-        currentCoordinates.lng
-      );
-      setCurrentWeather(weather);
-      console.log(currentWeather);
-    }
-    try {
-      weatherHandler();
-    } catch (error) {
-      console.error(error);
-    }
-  }, [currentCoordinates]);
-
   return (
     <Fragment>
       <View style={styles.container}>
         <View style={styles.containerInner}>
-          <Text>Displaying current weather for:</Text>
-          <Text>{address}</Text>
+          <Text style={styles.city}>{address}</Text>
           <ScrollView>
-            <WeatherOutput
-              currentWeather={currentWeather}
-              currentCoordinates={currentCoordinates}
-            />
+            {isLoading ? (
+              <View style={styles.activityLoader}>
+                <ActivityIndicator />
+              </View>
+            ) : (
+              <WeatherOutput
+                currentWeather={currentWeather}
+                currentCoordinates={currentCoordinates}
+              />
+            )}
           </ScrollView>
         </View>
       </View>
@@ -97,5 +99,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "pink",
     padding: 10,
+  },
+  displayText: {
+    fontFamily: "monospace",
+  },
+  city: {
+    fontFamily: "monospace",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  activityLoader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+    backgroundColor: "gray",
   },
 });

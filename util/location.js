@@ -10,6 +10,6 @@ export async function getAddress(lat, lng) {
   const data = await response.json();
   // data.results[0].formatted_adress google api specific
   const address = data.results[0].formatted_address;
-  console.log(address)
+  console.log("getAdress func log", address);
   return address;
 }
