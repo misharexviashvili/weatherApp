@@ -13,23 +13,23 @@ export default function Temperature({ currentWeather }) {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
-    borderColor: "red",
     borderRadius: 8,
     padding: 10,
+    marginBottom:10,
     justifyContent: "center",
     alignItems: "center",
   },
   labelText: {
     fontFamily: FontFamily.font,
-    marginTop:20
+    marginTop: 20,
+    fontSize: 18,
   },
   temperatureText: {
     fontFamily: FontFamily.font,
     marginTop: 100,
-    marginBottom:150,
+    marginBottom: 150,
     fontSize: 50,
     fontWeight: 500,
-    color:'#fff'
+    color: "#fff",
   },
 });
