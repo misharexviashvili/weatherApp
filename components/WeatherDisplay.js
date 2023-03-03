@@ -5,12 +5,13 @@ import {
   Text,
   View,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
@@ -20,14 +21,14 @@ export default function WeatherDisplay() {
     lat: null,
     lng: null,
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentWeather, setCurrentWeather] = useState({});
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
   const [address, setAddress] = useState();
   async function handleLocation(lat, lng) {
     const address = await getAddress(lat, lng);
-    setAddress(address.toString().slice(3, 20).replace("'", "")); // Update address state variable
+    setAddress(address); // Update address state variable
   }
 
   async function weatherHandler(lat, lng) {
@@ -35,6 +36,7 @@ export default function WeatherDisplay() {
     setCurrentWeather(weather);
   }
   async function locate() {
+    setIsLoading(true);
     await requestPermission();
     if (locationPermissionInformation.granted === true) {
       const currentLocation = await getCurrentPositionAsync();
@@ -51,54 +53,52 @@ export default function WeatherDisplay() {
         currentLocation.coords.latitude,
         currentLocation.coords.longitude
       );
-      console.log("currentWeather state",currentWeather);
       setIsLoading(false);
+      // console.log("currentWeather state",currentWeather);
     } else {
       Alert.alert("Please grant permission for app to work");
     }
   }
 
   return (
-    <Fragment>
-      <View style={styles.container}>
-        <View style={styles.containerInner}>
-          <Text style={styles.city}>{address}</Text>
-          <ScrollView>
-            {isLoading ? (
-              <View style={styles.activityLoader}>
-                <ActivityIndicator />
-              </View>
-            ) : (
-              <WeatherOutput
-                currentWeather={currentWeather}
-                currentCoordinates={currentCoordinates}
-              />
-            )}
-          </ScrollView>
-        </View>
-      </View>
+    <ScrollView contentContainerStyle={styles.container}>
       <Button onPress={locate}>Show me weather</Button>
-    </Fragment>
+      <View style={styles.containerInner}>
+        <Text style={styles.city}>{address}</Text>
+        {isLoading ? (
+          <View style={styles.activityLoader}>
+            <ActivityIndicator size={"large"} color={"red"} />
+          </View>
+        ) : (
+          <WeatherOutput
+            currentWeather={currentWeather}
+            currentCoordinates={currentCoordinates}
+          />
+        )}
+      </View>
+    </ScrollView>
   );
 }
-
+let ScreenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
+    // height: "100%",
+    width: ScreenWidth,
     alignItems: "center",
     marginTop: 50,
-    paddingHorizontal: 30,
+    // paddingHorizontal: 30,
     paddingTop: 10,
     backgroundColor: "red",
-    height: 400,
-    width: "100%",
+    // flex: 1,
   },
   containerInner: {
+    flex:  1,
     width: "100%",
-    height: "90%",
     borderColor: "black",
     borderWidth: 2,
     backgroundColor: "pink",
     padding: 10,
+    // height: 200,
   },
   displayText: {
     fontFamily: "monospace",
@@ -109,10 +109,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   activityLoader: {
-    flex: 1,
-    justifyContent: "center",
+    // flex: 1,
+    // justifyContent: "center",
     alignItems: "center",
     padding: 24,
-    backgroundColor: "gray",
+    // backgroundColor: "blue",
   },
 });

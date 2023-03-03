@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import WeatherDisplay from "./components/WeatherDisplay";
 
 export default function App() {
@@ -14,6 +14,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    gap: 10,
+    flex: 1,
+    backgroundColor: "black",
   },
 });
