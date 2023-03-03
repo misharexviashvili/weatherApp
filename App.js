@@ -1,8 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import WeatherDisplay from "./components/WeatherDisplay";
+import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { Roboto_400Regular } from "@expo-google-fonts/roboto";
+import * as SplashScreen from "expo-splash-screen";
+import { SafeAreaView } from "react-native";
 export default function App() {
   // const [fontsLoaded] = useFonts({
   //   InterSemiBoldItalic:
@@ -12,15 +14,23 @@ export default function App() {
     RobotoMedium: require("@expo-google-fonts/roboto/Roboto_500Medium.ttf"),
     RobotoBold: require("@expo-google-fonts/roboto/Roboto_900Black.ttf"),
   });
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
+  if (!fontsLoaded) {
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <WeatherDisplay />
-    </View>
+    </SafeAreaView>
   );
 }
 

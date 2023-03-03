@@ -16,7 +16,7 @@ import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
 import { getWeather, get7DaysWeather } from "../util/weather";
 import Regions from "./location elements/Regions";
-
+import { LinearGradient } from "expo-linear-gradient";
 export default function WeatherDisplay() {
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
@@ -24,6 +24,7 @@ export default function WeatherDisplay() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [currentWeather, setCurrentWeather] = useState({});
+  const [futureWeather, setFutureWeather] = useState({});
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
   const [address, setAddress] = useState();
@@ -35,6 +36,10 @@ export default function WeatherDisplay() {
   async function weatherHandler(lat, lng) {
     const weather = await getWeather(lat, lng);
     setCurrentWeather(weather);
+  }
+  async function FutureWeatherHandler(lat, lng) {
+    const weekWeather = await get7DaysWeather(lat, lng);
+    setFutureWeather(weekWeather);
   }
   async function locate() {
     setIsLoading(true);
@@ -62,19 +67,24 @@ export default function WeatherDisplay() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Button onPress={locate}>Show me weather</Button>
-      <View style={styles.containerInner}>
-        <Regions address={address} />
-        {isLoading ? (
-          <View style={styles.activityLoader}>
-            <ActivityIndicator size={60} color={"white"} />
-          </View>
-        ) : (
-          <WeatherOutput currentWeather={currentWeather} />
-        )}
-      </View>
-    </ScrollView>
+    <LinearGradient colors={["#f84b3d", "#f75450", "#f5626e", "#f56574"]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <Button onPress={locate}>Press Me</Button>
+        <View style={styles.containerInner}>
+          <Regions address={address} />
+          {isLoading ? (
+            <View style={styles.activityLoader}>
+              <ActivityIndicator size={60} color={"white"} />
+            </View>
+          ) : (
+            <WeatherOutput currentWeather={currentWeather} />
+          )}
+        </View>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 let screenHeight = Dimensions.get("window").height;
@@ -84,19 +94,20 @@ const styles = StyleSheet.create({
     // height: "100%",
     width: screenWidth,
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 40,
     // paddingHorizontal: 30,
     paddingTop: 10,
-    backgroundColor: "red",
+    // backgroundColor: "red",
     // flex: 1,
   },
   containerInner: {
     flex: 1,
-    width: "100%",
+    width: screenWidth,
     borderColor: "black",
-    borderWidth: 2,
-    backgroundColor: "pink",
+    borderTopWidth: 2,
+    // backgroundColor: "pink",
     padding: 10,
+    alignItems: "center",
     // height: 200,
   },
   displayText: {
