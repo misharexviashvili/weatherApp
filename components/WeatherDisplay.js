@@ -2,7 +2,6 @@ import {
   Alert,
   ScrollView,
   StyleSheet,
-  Text,
   View,
   ActivityIndicator,
   Dimensions,
@@ -16,6 +15,8 @@ import Button from "./Button";
 import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
 import { getWeather, get7DaysWeather } from "../util/weather";
+import Regions from "./location elements/Regions";
+
 export default function WeatherDisplay() {
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
@@ -64,26 +65,24 @@ export default function WeatherDisplay() {
     <ScrollView contentContainerStyle={styles.container}>
       <Button onPress={locate}>Show me weather</Button>
       <View style={styles.containerInner}>
-        <Text style={styles.city}>{address}</Text>
+        <Regions address={address} />
         {isLoading ? (
           <View style={styles.activityLoader}>
-            <ActivityIndicator size={"large"} color={"red"} />
+            <ActivityIndicator size={60} color={"white"} />
           </View>
         ) : (
-          <WeatherOutput
-            currentWeather={currentWeather}
-            currentCoordinates={currentCoordinates}
-          />
+          <WeatherOutput currentWeather={currentWeather} />
         )}
       </View>
     </ScrollView>
   );
 }
-let ScreenWidth = Dimensions.get("window").width;
+let screenHeight = Dimensions.get("window").height;
+let screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     // height: "100%",
-    width: ScreenWidth,
+    width: screenWidth,
     alignItems: "center",
     marginTop: 50,
     // paddingHorizontal: 30,
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     // flex: 1,
   },
   containerInner: {
-    flex:  1,
+    flex: 1,
     width: "100%",
     borderColor: "black",
     borderWidth: 2,
@@ -109,10 +108,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   activityLoader: {
-    // flex: 1,
-    // justifyContent: "center",
+    flex: 1,
+    minWidth: "100%",
+    height: screenHeight * 0.7,
+    justifyContent: "center",
     alignItems: "center",
     padding: 24,
     // backgroundColor: "blue",
+    // borderWidth: 5,
+    // borderColor: "blue",
   },
 });

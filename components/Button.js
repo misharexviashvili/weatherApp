@@ -14,7 +14,7 @@ export default function Button({ children, onPress }) {
 const styles = StyleSheet.create({
   pressable: {
     width: 190,
-    height: 70,
+    height: 60,
     backgroundColor: "green",
     justifyContent: "center",
     alignItems: "center",

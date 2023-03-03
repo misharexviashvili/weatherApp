@@ -1,4 +1,4 @@
 const FontFamily = {
-  font: "monospace",
+  font: "InterSemiBoldItalic",
 };
 export default FontFamily;

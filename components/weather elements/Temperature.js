@@ -21,13 +21,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   labelText: {
-    marginBottom: 50,
     fontFamily: FontFamily.font,
+    marginTop:20
   },
   temperatureText: {
     fontFamily: FontFamily.font,
-    marginBottom: 50,
-    fontSize: 25,
-    fontWeight: "bold",
+    marginTop: 100,
+    marginBottom:150,
+    fontSize: 50,
+    fontWeight: 500,
+    color:'#fff'
   },
 });
