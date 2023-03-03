@@ -1,4 +1,4 @@
 const FontFamily = {
-  font: "monospace",
+  font: "RobotoMedium",
 };
 export default FontFamily;

@@ -1,32 +1,42 @@
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-export default function WeatherOutput({ currentWeather, currentCoordinates }) {
-  if (!currentWeather.current) {
-    return (
-      <View style={styles.activityLoader}>
-        <ActivityIndicator size="large" color="white" />
-      </View>
-    );
-  }
-  let weatherTemperature =
-    currentCoordinates.lat || currentCoordinates.lng !== null
-      ? currentWeather.current.temp_c + "C"
-      : `Please press button "Show me weather"`;
+import { View } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import FontFamily from "../constants/FontFamily.js";
+import Temperature from "./weather elements/Temperature.js";
+import WeatherCondition from "./weather elements/WeatherCondition.js";
+export default function WeatherOutput({ currentWeather }) {
   return (
     <View>
-      <Text style={styles.text}>Temperature:{weatherTemperature}</Text>
+      <Temperature currentWeather={currentWeather} />
+      <WeatherCondition condition={currentWeather.current?.feelslike_c}>
+        Feels like:
+      </WeatherCondition>
+      <Text style={styles.text}>
+        Feels like: {currentWeather.current?.feelslike_c}C
+      </Text>
+      <Text style={styles.text}>
+        Current Wind speed: {currentWeather.current?.wind_kph} kph
+      </Text>
+      <Text style={styles.text}>
+        Condition: {currentWeather.current?.condition.text}
+      </Text>
+      <Text style={styles.text}>
+        Wind direction: {currentWeather.current?.wind_dir}
+      </Text>
+      <Text style={styles.text}>
+        Visibility: {currentWeather.current?.vis_km} Kms
+      </Text>
+      <Text style={styles.text}>
+        Country: {currentWeather.location?.country}
+      </Text>
+      <Text style={styles.text}>
+        Local time: {currentWeather.location?.localtime}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  activityLoader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-    backgroundColor: "gray",
-  },
   text: {
-    fontFamily: "monospace",
+    fontFamily: FontFamily.font,
   },
 });

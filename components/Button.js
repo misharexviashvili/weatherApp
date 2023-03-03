@@ -14,13 +14,16 @@ export default function Button({ children, onPress }) {
 const styles = StyleSheet.create({
   pressable: {
     width: 190,
-    height: 70,
+    height: 60,
     backgroundColor: "green",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
+    marginBottom:10,
     borderRadius: 10,
     elevation: 4,
+    borderWidth: 2,
+    borderColor: "#777",
   },
   pressed: {
     opacity: 0.8,
@@ -28,5 +31,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     fontFamily: "monospace",
+    fontSize: 16,
   },
 });
