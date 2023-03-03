@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import FontFamily from "../constants/FontFamily";
 export default function Button({ children, onPress }) {
   return (
     <Pressable
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontFamily: "monospace",
+    fontFamily: FontFamily.font,
     fontSize: 16,
   },
 });

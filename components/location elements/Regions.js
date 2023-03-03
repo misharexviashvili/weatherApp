@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function Regions({ address }) {
   return (
     <View style={styles.container}>
-      <Ionicons name="location-outline" size={20} />
+      <Ionicons name="location-outline" color={"#fafafa"} size={20} />
       <Text style={styles.text}>{address}</Text>
     </View>
   );
@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "blue",
-    marginTop:10,
+    marginTop: 10,
     marginBottom: 10,
     padding: 8,
   },
   text: {
     fontFamily: FontFamily.font,
     fontSize: 16,
-    color: "#fafafa",
+    color: "#fff",
     marginLeft: 5,
   },
 });

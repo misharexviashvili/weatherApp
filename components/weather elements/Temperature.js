@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   temperatureText: {
     fontFamily: FontFamily.font,
     marginTop: 100,
-    marginBottom: 150,
-    fontSize: 50,
+    marginBottom: 130,
+    fontSize: 60,
     fontWeight: 500,
     color: "#fff",
   },
