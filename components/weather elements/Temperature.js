@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 8,
     padding: 10,
-    marginBottom:10,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.font,
     marginTop: 20,
     fontSize: 18,
+    color: "#f3f66f",
   },
   temperatureText: {
     fontFamily: FontFamily.font,
