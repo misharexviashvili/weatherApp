@@ -68,8 +68,11 @@ export default function WeatherDisplay() {
 
   return (
     <LinearGradient colors={["#f84b3d", "#f75450", "#f5626e", "#f56574"]}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Button onPress={locate}>Show me weather</Button>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <Button onPress={locate}>Press Me</Button>
         <View style={styles.containerInner}>
           <Regions address={address} />
           {isLoading ? (
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
     // height: "100%",
     width: screenWidth,
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 40,
     // paddingHorizontal: 30,
     paddingTop: 10,
     // backgroundColor: "red",
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: screenWidth,
     borderColor: "black",
-    borderWidth: 2,
+    borderTopWidth: 2,
     // backgroundColor: "pink",
     padding: 10,
     alignItems: "center",

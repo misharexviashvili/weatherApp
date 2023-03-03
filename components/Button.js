@@ -19,9 +19,9 @@ export default function Button({ children, onPress }) {
 
 const styles = StyleSheet.create({
   pressable: {
-    width: 190,
+    width: 170,
     height: 60,
-    marginBottom: 10,
+    marginBottom: 16,
   },
   gradient: {
     width: "100%",

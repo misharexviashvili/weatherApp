@@ -4,6 +4,7 @@ import WeatherDisplay from "./components/WeatherDisplay";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { SafeAreaView } from "react-native";
 export default function App() {
   // const [fontsLoaded] = useFonts({
   //   InterSemiBoldItalic:
@@ -26,10 +27,10 @@ export default function App() {
     SplashScreen.hideAsync();
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <WeatherDisplay />
-    </View>
+    </SafeAreaView>
   );
 }
 
