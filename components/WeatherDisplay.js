@@ -10,7 +10,7 @@ import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Button from "./Button";
 import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
@@ -24,9 +24,8 @@ export default function WeatherDisplay() {
     lat: null,
     lng: null,
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
-  const [futureWeather, setFutureWeather] = useState({});
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
   const [address, setAddress] = useState();
@@ -38,10 +37,6 @@ export default function WeatherDisplay() {
   async function weatherHandler(lat, lng) {
     const weather = await getWeather(lat, lng);
     setCurrentWeather(weather);
-  }
-  async function FutureWeatherHandler(lat, lng) {
-    const weekWeather = await get7DaysWeather(lat, lng);
-    setFutureWeather(weekWeather);
   }
   async function locate() {
     setIsLoading(true);
@@ -84,18 +79,20 @@ export default function WeatherDisplay() {
               <ActivityIndicator size={60} color={"white"} />
             </View>
           ) : (
-            <WeatherOutput currentWeather={currentWeather} />
+            <Fragment>
+              <WeatherOutput currentWeather={currentWeather} />
+              <View style={styles.forecastBtnContainer}>
+                <Button
+                  onPress={() => {
+                    navigation.navigate("Forecast", currentCoordinates);
+                  }}
+                  icon="arrow-redo-outline"
+                >
+                  7 Days Forecast
+                </Button>
+              </View>
+            </Fragment>
           )}
-        </View>
-        <View style={styles.forecastBtnContainer}>
-          <Button
-            onPress={() => {
-              navigation.navigate("Forecast",);
-            }}
-            icon="arrow-redo-outline"
-          >
-            7 Days Forecast
-          </Button>
         </View>
       </ScrollView>
     </LinearGradient>
