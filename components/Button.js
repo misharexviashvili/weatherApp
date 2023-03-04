@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import FontFamily from "../constants/FontFamily";
-export default function Button({ children, onPress }) {
+import { Ionicons } from "@expo/vector-icons";
+export default function Button({ children, onPress, icon }) {
   return (
     <Pressable
       style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
@@ -11,7 +12,15 @@ export default function Button({ children, onPress }) {
         style={styles.gradient}
         colors={["#032838", "#15617d", "#3c5e6b"]}
       >
-        <Text style={styles.text}>{children}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.text}>{children}</Text>
+          <Ionicons
+            color="white"
+            size={20}
+            style={styles.ionicon}
+            name={icon}
+          />
+        </View>
       </LinearGradient>
     </Pressable>
   );
@@ -29,6 +38,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+  },
+  titleContainer: {
+    flexDirection: "row",
+  },
+  ionicon: {
+    marginLeft: 5,
   },
   pressed: {
     opacity: 0.8,

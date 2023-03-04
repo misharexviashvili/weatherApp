@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 15,
     width: screenWidth,
-    paddingBottom: 50,
+    paddingBottom: 30,
   },
   conditionsContainer: {
     borderWidth: 2,
