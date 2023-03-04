@@ -26,6 +26,7 @@ export default function WeatherDisplay() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
+  const [forecast, setForecast] = useState({});
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
   const [address, setAddress] = useState();
@@ -37,6 +38,10 @@ export default function WeatherDisplay() {
   async function weatherHandler(lat, lng) {
     const weather = await getWeather(lat, lng);
     setCurrentWeather(weather);
+  }
+  async function forecastHandler(lat, lng) {
+    const forecast = await get7DaysWeather(lat, lng);
+    setForecast(forecast);
   }
   async function locate() {
     setIsLoading(true);
@@ -53,6 +58,10 @@ export default function WeatherDisplay() {
         currentLocation.coords.longitude
       );
       weatherHandler(
+        currentLocation.coords.latitude,
+        currentLocation.coords.longitude
+      );
+      forecastHandler(
         currentLocation.coords.latitude,
         currentLocation.coords.longitude
       );
@@ -84,7 +93,7 @@ export default function WeatherDisplay() {
               <View style={styles.forecastBtnContainer}>
                 <Button
                   onPress={() => {
-                    navigation.navigate("Forecast", currentCoordinates);
+                    navigation.navigate("Forecast", forecast);
                   }}
                   icon="arrow-redo-outline"
                 >

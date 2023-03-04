@@ -1,28 +1,15 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import { get7DaysWeather } from "../util/weather";
+import { ScrollView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import ForecastOutput from "../components/weather elements/ForecastOutput";
 
 export default function Forecast({ route }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [forecast, setForecast] = useState({});
-  console.log("route params", route.params);
-  async function forecastHandler(lat, lng) {
-    const forecast = await get7DaysWeather(lat, lng);
-    setForecast(forecast);
-  }
-  useEffect(() => {
-    forecastHandler(route.params.lat, route.params.lng);
-    setIsLoading(false);
-    console.log(forecast.forecast.forecastday[0]);
-  }, []);
-
-  if (isLoading) {
-    return <ActivityIndicator size={60} color={"white"} />;
-  }
+  console.log("params", route.params.forecast.forecastday);
+  const forecast = route.params.forecast.forecastday;
   return (
-    <View>
-      <Text>Forecast</Text>
-    </View>
+    <ScrollView>
+      <ForecastOutput forecast={forecast[0]} />
+      {/* <ForecastOutput forecast={forecast[1]} /> */}
+    </ScrollView>
   );
 }
 
