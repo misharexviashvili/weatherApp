@@ -72,7 +72,9 @@ export default function WeatherDisplay() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
       >
-        <Button onPress={locate}>Press Me</Button>
+        <Button icon="finger-print-outline" onPress={locate}>
+          Current Weather
+        </Button>
         <View style={styles.containerInner}>
           <Regions address={address} />
           {isLoading ? (
@@ -84,7 +86,7 @@ export default function WeatherDisplay() {
           )}
         </View>
         <View style={styles.forecastBtnContainer}>
-          <Button>Forecast</Button>
+          <Button icon="arrow-redo-outline">7 Days Forecast</Button>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -94,24 +96,18 @@ let screenHeight = Dimensions.get("window").height;
 let screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
-    // height: "100%",
     width: screenWidth,
     alignItems: "center",
-    marginTop: 40,
-    // paddingHorizontal: 30,
+    marginTop: 20,
     paddingTop: 10,
-    // backgroundColor: "red",
-    // flex: 1,
   },
   containerInner: {
     flex: 1,
     width: screenWidth,
     borderColor: "black",
     borderTopWidth: 2,
-    // backgroundColor: "pink",
     padding: 10,
     alignItems: "center",
-    // height: 200,
   },
   displayText: {
     fontFamily: "monospace",
@@ -128,12 +124,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
-    // backgroundColor: "blue",
-    // borderWidth: 5,
-    // borderColor: "blue",
   },
   forecastBtnContainer: {
     alignItems: "center",
     marginBottom: 50,
+    height: 50,
   },
 });
