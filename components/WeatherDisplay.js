@@ -83,6 +83,9 @@ export default function WeatherDisplay() {
             <WeatherOutput currentWeather={currentWeather} />
           )}
         </View>
+        <View style={styles.forecastBtnContainer}>
+          <Button>Forecast</Button>
+        </View>
       </ScrollView>
     </LinearGradient>
   );
@@ -128,5 +131,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue",
     // borderWidth: 5,
     // borderColor: "blue",
+  },
+  forecastBtnContainer: {
+    alignItems: "center",
+    marginBottom: 50,
   },
 });

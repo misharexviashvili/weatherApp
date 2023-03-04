@@ -1,15 +1,14 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import WeatherDisplay from "./components/WeatherDisplay";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { SafeAreaView } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./screens/HomeScreen";
+import FontFamily from "./constants/FontFamily";
+
+const Stack = createNativeStackNavigator();
 export default function App() {
-  // const [fontsLoaded] = useFonts({
-  //   InterSemiBoldItalic:
-  //     "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
-  // });
   const [fontsLoaded] = useFonts({
     RobotoMedium: require("@expo-google-fonts/roboto/Roboto_500Medium.ttf"),
     RobotoBold: require("@expo-google-fonts/roboto/Roboto_900Black.ttf"),
@@ -27,10 +26,24 @@ export default function App() {
     SplashScreen.hideAsync();
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <WeatherDisplay />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            title: "Current Weather",
+            headerStyle: { backgroundColor: "#F74031" },
+            // headerTintColor: "#000",
+            headerTitleStyle: {
+              fontFamily: FontFamily.font,
+              color: "white",
+              fontSize: 26,
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
