@@ -17,7 +17,9 @@ import WeatherOutput from "./WeatherOutput";
 import { getWeather, get7DaysWeather } from "../util/weather";
 import Regions from "./location elements/Regions";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 export default function WeatherDisplay() {
+  const navigation = useNavigation();
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
     lng: null,
@@ -86,7 +88,14 @@ export default function WeatherDisplay() {
           )}
         </View>
         <View style={styles.forecastBtnContainer}>
-          <Button icon="arrow-redo-outline">7 Days Forecast</Button>
+          <Button
+            onPress={() => {
+              navigation.navigate("Forecast",);
+            }}
+            icon="arrow-redo-outline"
+          >
+            7 Days Forecast
+          </Button>
         </View>
       </ScrollView>
     </LinearGradient>

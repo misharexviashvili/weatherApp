@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import FontFamily from "./constants/FontFamily";
+import Forecast from "./screens/Forecast";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -25,6 +26,15 @@ export default function App() {
   } else {
     SplashScreen.hideAsync();
   }
+  const headingStyle = {
+    headerStyle: { backgroundColor: "#F74031" },
+    // headerTintColor: "#000",
+    headerTitleStyle: {
+      fontFamily: FontFamily.font,
+      color: "white",
+      fontSize: 26,
+    },
+  };
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -33,13 +43,15 @@ export default function App() {
           component={HomeScreen}
           options={{
             title: "Current Weather",
-            headerStyle: { backgroundColor: "#F74031" },
-            // headerTintColor: "#000",
-            headerTitleStyle: {
-              fontFamily: FontFamily.font,
-              color: "white",
-              fontSize: 26,
-            },
+            ...headingStyle,
+          }}
+        />
+        <Stack.Screen
+          name="Forecast"
+          component={Forecast}
+          options={{
+            title: "Forecast",
+            ...headingStyle,
           }}
         />
       </Stack.Navigator>
