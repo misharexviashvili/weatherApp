@@ -5,6 +5,7 @@ import {
   View,
   ActivityIndicator,
   Dimensions,
+  Text,
 } from "react-native";
 import {
   getCurrentPositionAsync,
@@ -18,18 +19,20 @@ import { getWeather, get7DaysWeather } from "../util/weather";
 import Regions from "./location elements/Regions";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import FontFamily from "../constants/FontFamily";
 export default function WeatherDisplay() {
   const navigation = useNavigation();
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
     lng: null,
   });
+  const [launched, setLaunched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState({});
+  const [address, setAddress] = useState();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
-  const [address, setAddress] = useState();
   async function handleLocation(lat, lng) {
     const address = await getAddress(lat, lng);
     setAddress(address); // Update address state variable
@@ -44,6 +47,7 @@ export default function WeatherDisplay() {
     setForecast(forecast);
   }
   async function locate() {
+    setLaunched(true);
     setIsLoading(true);
     await requestPermission();
     if (locationPermissionInformation.granted === true) {
@@ -73,6 +77,16 @@ export default function WeatherDisplay() {
     }
   }
   let isDay = currentWeather.current?.is_day;
+  if (!launched) {
+    return (
+      <LinearGradient colors={["#000", "#fff"]} style={styles.greeting}>
+        <Text style={styles.greetingText}>Please, Press Current weather</Text>
+        <Button icon="finger-print-outline" onPress={locate}>
+          Current Weather
+        </Button>
+      </LinearGradient>
+    );
+  }
   return (
     <LinearGradient
       colors={
@@ -85,8 +99,12 @@ export default function WeatherDisplay() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
       >
-        <Button icon="finger-print-outline" onPress={locate}>
-          Current Weather
+        <Button
+          btnDimensions={styles.retryBtn}
+          icon="finger-print-outline"
+          onPress={locate}
+        >
+          Retry
         </Button>
         <View style={styles.containerInner}>
           <Regions address={address} />
@@ -121,6 +139,18 @@ export default function WeatherDisplay() {
 let screenHeight = Dimensions.get("window").height;
 let screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+  greeting: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    width: screenWidth,
+  },
+  greetingText: {
+    color: "#fff",
+    fontSize: 24,
+    fontFamily: FontFamily.font,
+    marginBottom: 20,
+  },
   container: {
     width: screenWidth,
     alignItems: "center",
@@ -130,10 +160,14 @@ const styles = StyleSheet.create({
   containerInner: {
     flex: 1,
     width: screenWidth,
-    borderColor: "black",
-    borderTopWidth: 2,
+    // borderColor: "black",
+    // borderTopWidth: 2,
     padding: 10,
     alignItems: "center",
+  },
+  retryBtn: {
+    width: 100,
+    height: 50,
   },
   displayText: {
     fontFamily: "monospace",
