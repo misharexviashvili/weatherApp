@@ -66,14 +66,21 @@ export default function WeatherDisplay() {
         currentLocation.coords.longitude
       );
       setIsLoading(false);
+      // console.log('for day',currentWeather.current.is_day)
       // console.log("currentWeather state",currentWeather);
     } else {
       Alert.alert("Please grant permission for app to work");
     }
   }
-
+  let isDay = currentWeather.current?.is_day;
   return (
-    <LinearGradient colors={["#f84b3d", "#f75450", "#f5626e", "#f56574"]}>
+    <LinearGradient
+      colors={
+        isDay === 1
+          ? ["#f75450", "#f5626e", "#f56574"]
+          : ["#02092f", "#125dbe", "#3976c7"]
+      }
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
@@ -93,7 +100,11 @@ export default function WeatherDisplay() {
               <View style={styles.forecastBtnContainer}>
                 <Button
                   onPress={() => {
-                    navigation.navigate("Forecast", forecast);
+                    navigation.navigate(
+                      "Forecast",
+                      forecast
+                      // currentWeather.current?.is_day
+                    );
                   }}
                   icon="arrow-redo-outline"
                 >
