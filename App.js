@@ -27,7 +27,7 @@ export default function App() {
     SplashScreen.hideAsync();
   }
   const headingStyle = {
-    headerStyle: { backgroundColor: "#F74031" },
+    headerStyle: { backgroundColor: "#5c6e85" },
     // headerTintColor: "#000",
     headerTitleStyle: {
       fontFamily: FontFamily.font,
@@ -58,11 +58,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "white",
-  },
-});
