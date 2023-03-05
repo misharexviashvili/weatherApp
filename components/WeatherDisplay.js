@@ -5,29 +5,34 @@ import {
   View,
   ActivityIndicator,
   Dimensions,
+  Text,
 } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from "expo-location";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Button from "./Button";
 import { getAddress } from "../util/location";
 import WeatherOutput from "./WeatherOutput";
 import { getWeather, get7DaysWeather } from "../util/weather";
 import Regions from "./location elements/Regions";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import FontFamily from "../constants/FontFamily";
 export default function WeatherDisplay() {
+  const navigation = useNavigation();
   const [currentCoordinates, setCurrentCoordinates] = useState({
     lat: null,
     lng: null,
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [launched, setLaunched] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
-  const [futureWeather, setFutureWeather] = useState({});
+  const [forecast, setForecast] = useState({});
+  const [address, setAddress] = useState();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
-  const [address, setAddress] = useState();
   async function handleLocation(lat, lng) {
     const address = await getAddress(lat, lng);
     setAddress(address); // Update address state variable
@@ -37,11 +42,12 @@ export default function WeatherDisplay() {
     const weather = await getWeather(lat, lng);
     setCurrentWeather(weather);
   }
-  async function FutureWeatherHandler(lat, lng) {
-    const weekWeather = await get7DaysWeather(lat, lng);
-    setFutureWeather(weekWeather);
+  async function forecastHandler(lat, lng) {
+    const forecast = await get7DaysWeather(lat, lng);
+    setForecast(forecast);
   }
   async function locate() {
+    setLaunched(true);
     setIsLoading(true);
     await requestPermission();
     if (locationPermissionInformation.granted === true) {
@@ -59,21 +65,46 @@ export default function WeatherDisplay() {
         currentLocation.coords.latitude,
         currentLocation.coords.longitude
       );
+      forecastHandler(
+        currentLocation.coords.latitude,
+        currentLocation.coords.longitude
+      );
       setIsLoading(false);
+      // console.log('for day',currentWeather.current.is_day)
       // console.log("currentWeather state",currentWeather);
     } else {
       Alert.alert("Please grant permission for app to work");
     }
   }
-
+  let isDay = currentWeather.current?.is_day;
+  if (!launched) {
+    return (
+      <LinearGradient colors={["#000", "#fff"]} style={styles.greeting}>
+        <Text style={styles.greetingText}>Please, Press Current weather</Text>
+        <Button icon="finger-print-outline" onPress={locate}>
+          Current Weather
+        </Button>
+      </LinearGradient>
+    );
+  }
   return (
-    <LinearGradient colors={["#f84b3d", "#f75450", "#f5626e", "#f56574"]}>
+    <LinearGradient
+      colors={
+        isDay === 1
+          ? ["#f75450", "#f5626e", "#f56574"]
+          : ["#02092f", "#125dbe", "#3976c7"]
+      }
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
       >
-        <Button icon="finger-print-outline" onPress={locate}>
-          Current Weather
+        <Button
+          btnDimensions={styles.retryBtn}
+          icon="finger-print-outline"
+          onPress={locate}
+        >
+          Retry
         </Button>
         <View style={styles.containerInner}>
           <Regions address={address} />
@@ -82,11 +113,24 @@ export default function WeatherDisplay() {
               <ActivityIndicator size={60} color={"white"} />
             </View>
           ) : (
-            <WeatherOutput currentWeather={currentWeather} />
+            <Fragment>
+              <WeatherOutput currentWeather={currentWeather} />
+              <View style={styles.forecastBtnContainer}>
+                <Button
+                  onPress={() => {
+                    navigation.navigate(
+                      "Forecast",
+                      forecast
+                      // currentWeather.current?.is_day
+                    );
+                  }}
+                  icon="arrow-redo-outline"
+                >
+                  7 Days Forecast
+                </Button>
+              </View>
+            </Fragment>
           )}
-        </View>
-        <View style={styles.forecastBtnContainer}>
-          <Button icon="arrow-redo-outline">7 Days Forecast</Button>
         </View>
       </ScrollView>
     </LinearGradient>
@@ -95,6 +139,18 @@ export default function WeatherDisplay() {
 let screenHeight = Dimensions.get("window").height;
 let screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+  greeting: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    width: screenWidth,
+  },
+  greetingText: {
+    color: "#fff",
+    fontSize: 24,
+    fontFamily: FontFamily.font,
+    marginBottom: 20,
+  },
   container: {
     width: screenWidth,
     alignItems: "center",
@@ -104,10 +160,14 @@ const styles = StyleSheet.create({
   containerInner: {
     flex: 1,
     width: screenWidth,
-    borderColor: "black",
-    borderTopWidth: 2,
+    // borderColor: "black",
+    // borderTopWidth: 2,
     padding: 10,
     alignItems: "center",
+  },
+  retryBtn: {
+    width: 100,
+    height: 50,
   },
   displayText: {
     fontFamily: "monospace",

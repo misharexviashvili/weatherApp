@@ -2,10 +2,14 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import FontFamily from "../constants/FontFamily";
 import { Ionicons } from "@expo/vector-icons";
-export default function Button({ children, onPress, icon }) {
+export default function Button({ children, onPress, icon, btnDimensions }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+      style={({ pressed }) => [
+        styles.pressable,
+        pressed && styles.pressed,
+        btnDimensions,
+      ]}
       onPress={onPress}
     >
       <LinearGradient
