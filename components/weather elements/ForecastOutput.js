@@ -10,7 +10,7 @@ export default function ForecastOutput({ forecast }) {
     >
       <View style={styles.dateContainer}>
         <Ionicons name="calendar-outline" size={24} />
-        <Text style={styles.dateText}>{forecast.date}</Text>
+        <Text style={styles.dateText}>{forecast?.date}</Text>
       </View>
       <View style={styles.sectionContainer}>
         <Ionicons name="thermometer-outline" size={24} />
@@ -18,25 +18,25 @@ export default function ForecastOutput({ forecast }) {
           Min Temperature - Max Temperature
         </Text>
         <Text style={styles.weatherText}>
-          {forecast.day.mintemp_c}&#8451; - {forecast.day.maxtemp_c}&#8451;
+          {forecast?.day.mintemp_c}&#8451; - {forecast?.day.maxtemp_c}&#8451;
         </Text>
       </View>
       <View style={styles.sectionContainer}>
         <Ionicons name="speedometer-outline" size={24} />
         <Text style={styles.weatherText}>Max Wind Speed</Text>
-        <Text style={styles.weatherText}>{forecast.day.maxwind_kph} kph</Text>
+        <Text style={styles.weatherText}>{forecast?.day.maxwind_kph} kph</Text>
       </View>
       <View style={styles.sectionContainer}>
         <Ionicons name="rainy-outline" size={24} />
         <Text style={styles.weatherText}>Chance of rain</Text>
         <Text style={styles.weatherText}>
-          {forecast.day.daily_chance_of_rain} %
+          {forecast?.day.daily_chance_of_rain} %
         </Text>
       </View>
       <View style={styles.sectionContainer}>
         <Ionicons name="cloudy-outline" size={24} />
         <Text style={styles.weatherText}>Condition</Text>
-        <Text style={styles.weatherText}>{forecast.day.condition.text}</Text>
+        <Text style={styles.weatherText}>{forecast?.day.condition.text}</Text>
       </View>
     </LinearGradient>
   );

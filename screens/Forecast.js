@@ -19,10 +19,11 @@ export default function Forecast({ route }) {
         <ForecastOutput forecast={forecast[0]} />
         <ForecastOutput forecast={forecast[1]} />
         <ForecastOutput forecast={forecast[2]} />
-        <ForecastOutput forecast={forecast[3]} />
+        {/* Free plan did not include more than 3 days */}
+        {/* <ForecastOutput forecast={forecast[3]} />
         <ForecastOutput forecast={forecast[4]} />
         <ForecastOutput forecast={forecast[5]} />
-        <ForecastOutput forecast={forecast[6]} />
+        <ForecastOutput forecast={forecast[6]} /> */}
       </ScrollView>
     </LinearGradient>
   );
