@@ -79,7 +79,7 @@ export default function WeatherDisplay() {
   let isDay = currentWeather.current?.is_day;
   if (!launched) {
     return (
-      <LinearGradient colors={["#000", "#fff"]} style={styles.greeting}>
+      <LinearGradient colors={["#111", "#fff"]} style={styles.greeting}>
         <Text style={styles.greetingText}>Please, Press Current weather</Text>
         <Button icon="finger-print-outline" onPress={locate}>
           Current Weather
@@ -126,7 +126,7 @@ export default function WeatherDisplay() {
                   }}
                   icon="arrow-redo-outline"
                 >
-                  7 Days Forecast
+                  3 Days Forecast
                 </Button>
               </View>
             </Fragment>

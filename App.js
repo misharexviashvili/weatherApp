@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Text } from "react-native";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -42,16 +42,18 @@ export default function App() {
           name="HomeScreen"
           component={HomeScreen}
           options={{
-            title: "Current Weather",
-            ...headingStyle,
+            headerShown: false,
+            // title: "Current Weather",
+            // ...headingStyle,
           }}
         />
         <Stack.Screen
           name="Forecast"
           component={Forecast}
           options={{
-            title: "Forecast",
-            ...headingStyle,
+            headerShown: false,
+            // title: "Forecast",
+            // ...headingStyle,
           }}
         />
       </Stack.Navigator>
