@@ -50,31 +50,28 @@ export default function WeatherDisplay() {
     setLaunched(true);
     setIsLoading(true);
     await requestPermission();
-    if (locationPermissionInformation.granted === true) {
-      const currentLocation = await getCurrentPositionAsync();
-      setCurrentCoordinates({
-        lat: currentLocation.coords.latitude,
-        lng: currentLocation.coords.longitude,
-      });
-      console.log("here", currentLocation);
-      await handleLocation(
-        currentLocation.coords.latitude,
-        currentLocation.coords.longitude
-      );
-      weatherHandler(
-        currentLocation.coords.latitude,
-        currentLocation.coords.longitude
-      );
-      forecastHandler(
-        currentLocation.coords.latitude,
-        currentLocation.coords.longitude
-      );
-      setIsLoading(false);
-      // console.log('for day',currentWeather.current.is_day)
-      // console.log("currentWeather state",currentWeather);
-    } else {
-      Alert.alert("Please grant permission for app to work");
-    }
+    console.log(locationPermissionInformation);
+    const currentLocation = await getCurrentPositionAsync();
+    setCurrentCoordinates({
+      lat: currentLocation.coords.latitude,
+      lng: currentLocation.coords.longitude,
+    });
+    console.log("here", currentLocation);
+    await handleLocation(
+      currentLocation.coords.latitude,
+      currentLocation.coords.longitude
+    );
+    weatherHandler(
+      currentLocation.coords.latitude,
+      currentLocation.coords.longitude
+    );
+    forecastHandler(
+      currentLocation.coords.latitude,
+      currentLocation.coords.longitude
+    );
+    setIsLoading(false);
+    // console.log('for day',currentWeather.current.is_day)
+    // console.log("currentWeather state",currentWeather);
   }
   let isDay = currentWeather.current?.is_day;
   if (!launched) {
