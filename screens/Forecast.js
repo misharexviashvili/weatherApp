@@ -20,6 +20,7 @@ export default function Forecast({ navigation, route }) {
           style={({ pressed }) => [
             styles.pressable,
             pressed ? styles.pressed : null,
+            isDay !== 1 ? { backgroundColor: "#fff" } : null,
           ]}
           onPress={() => navigation.goBack()}
         >
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   pressable: {
     flexDirection: "row",
     alignItems: "center",
-    width: "25%",
+    width: 100,
     paddingHorizontal: 6,
     marginTop: 10,
     borderWidth: 1,
