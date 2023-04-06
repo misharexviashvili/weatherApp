@@ -1,7 +1,6 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import ForecastOutput from "../components/weather elements/ForecastOutput";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import Button from "../components/Button";
 export default function Forecast({ navigation, route }) {
   // console.log("params", route.params);
@@ -44,11 +43,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   pressable: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent:"center",
     width: 100,
-    height: 30,
+    height: 34,
     paddingHorizontal: 6,
     marginTop: 10,
   },
