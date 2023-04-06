@@ -45,7 +45,7 @@ export default function ForecastOutput({ forecast }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 10,
+    // marginTop: 10,
     marginBottom:10,
     backgroundColor: "pink",
     borderWidth: 2,

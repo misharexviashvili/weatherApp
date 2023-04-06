@@ -22,10 +22,10 @@ import { useNavigation } from "@react-navigation/native";
 import FontFamily from "../constants/FontFamily";
 export default function WeatherDisplay() {
   const navigation = useNavigation();
-  const [currentCoordinates, setCurrentCoordinates] = useState({
-    lat: null,
-    lng: null,
-  });
+  // const [currentCoordinates, setCurrentCoordinates] = useState({
+  //   lat: null,
+  //   lng: null,
+  // });
   const [launched, setLaunched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
@@ -52,10 +52,10 @@ export default function WeatherDisplay() {
     await requestPermission();
     console.log(locationPermissionInformation);
     const currentLocation = await getCurrentPositionAsync();
-    setCurrentCoordinates({
-      lat: currentLocation.coords.latitude,
-      lng: currentLocation.coords.longitude,
-    });
+    // setCurrentCoordinates({
+    //   lat: currentLocation.coords.latitude,
+    //   lng: currentLocation.coords.longitude,
+    // });
     console.log("here", currentLocation);
     await handleLocation(
       currentLocation.coords.latitude,
