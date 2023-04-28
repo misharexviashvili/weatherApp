@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: "row",
-    alignItems:"center"
+    alignItems:"center",
+    marginRight:10
   },
   conditionTitle: {
     color: "#e3e8e9",
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   conditionText: {
     fontFamily: FontFamily.font,
-    fontSize: 20,
+    fontSize: 16,
     color: "#fff",
   },
   ionicon: {
