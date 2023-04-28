@@ -26,7 +26,7 @@ export default function WeatherDisplay() {
   //   lat: null,
   //   lng: null,
   // });
-  const [launched, setLaunched] = useState(false);
+  // const [launched, setLaunched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentWeather, setCurrentWeather] = useState({});
   const [forecast, setForecast] = useState({});
@@ -47,7 +47,7 @@ export default function WeatherDisplay() {
     setForecast(forecast);
   }
   async function locate() {
-    setLaunched(true);
+    // setLaunched(true);
     setIsLoading(true);
     await requestPermission();
     console.log(locationPermissionInformation);
@@ -74,16 +74,20 @@ export default function WeatherDisplay() {
     // console.log("currentWeather state",currentWeather);
   }
   let isDay = currentWeather.current?.is_day;
-  if (!launched) {
-    return (
-      <LinearGradient colors={["#111", "#fff"]} style={styles.greeting}>
-        <Text style={styles.greetingText}>Please, Press Current weather</Text>
-        <Button icon="finger-print-outline" onPress={locate}>
-          Current Weather
-        </Button>
-      </LinearGradient>
-    );
-  }
+  useEffect(() => {
+    locate();
+  }, [address]);
+
+  // if (!launched) {
+  //   return (
+  //     <LinearGradient colors={["#111", "#fff"]} style={styles.greeting}>
+  //       <Text style={styles.greetingText}>Please, Press Current weather</Text>
+  //       <Button icon="finger-print-outline" onPress={locate}>
+  //         Current Weather
+  //       </Button>
+  //     </LinearGradient>
+  //   );
+  // }
   return (
     <LinearGradient
       colors={
